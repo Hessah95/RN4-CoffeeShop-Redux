@@ -22,6 +22,11 @@ import styles from "./styles";
 import coffeeshops from "../CoffeeList/list";
 import CartButton from "../CartButton";
 
+import * as actionCreators from "../../store/actions/coffeeActions";
+
+// Actions
+import addItemToCart from "../../store/actions/coffeeActions";
+
 class CoffeeDetail extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -44,6 +49,15 @@ class CoffeeDetail extends Component {
     this.setState({
       option: value
     });
+  };
+
+  handlePress = () => {
+    let currentItem = {
+      drink: this.state.drink,
+      option: this.state.option,
+      quantity: 1 // to increase the quantity by 1 once the user press
+    };
+    this.props.addItemToCart(currentItem);
   };
 
   render() {
@@ -93,7 +107,7 @@ class CoffeeDetail extends Component {
               </Picker>
             </Body>
           </ListItem>
-          <Button full danger>
+          <Button full danger onPress={this.handlePress}>
             <Text>Add</Text>
           </Button>
         </List>
@@ -106,4 +120,13 @@ const mapStateToProps = state => ({
   coffeeReducer: state.coffeeReducer
 });
 
-export default connect(mapStateToProps)(CoffeeDetail);
+const mapDispatchToProps = dispatch => {
+  return {
+    addItemToCart: item => dispatch(actionCreators.addItemToCart(item))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CoffeeDetail);
