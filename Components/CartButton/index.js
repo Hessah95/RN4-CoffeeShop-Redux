@@ -1,25 +1,24 @@
 import React, { Component } from "react";
-import { Icon, Text, Container } from "native-base";
+import { Icon, Text, Container, View } from "native-base";
 import { withNavigation } from "react-navigation";
 import { connect } from "react-redux";
 
 class CartButton extends Component {
   render() {
     return (
-      // <Container>
       <Icon
         onPress={() => this.props.navigation.navigate("CoffeeCart")}
         name="shoppingcart"
         type="AntDesign"
-      />
-      /* <Text>{this.props.quantity}</Text> */
-      // </Container>
+      >
+        {this.props.items.length}
+      </Icon>
     );
   }
 }
 
-// const mapStateToProps = state => ({
-//   quantity: state.cartReucer.quantity
-// });
+const mapStateToProps = state => ({
+  items: state.cartReducer.items
+});
 
-export default withNavigation(CartButton);
+export default connect(mapStateToProps)(withNavigation(CartButton));
